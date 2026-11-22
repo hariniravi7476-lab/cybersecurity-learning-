@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing URL Detector</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="shield">🛡️</div>
+
+        <h1>Phishing URL Detector</h1>
+        <p class="subtitle">Advanced URL Security Scanner</p>
+
+        <div class="scanner">
+            <input type="text" id="urlInput"
+                placeholder="Enter a URL to scan...">
+
+            <button onclick="checkURL()">SCAN URL</button>
+        </div>
+
+        <div class="result-box">
+            <h3 id="result">Waiting for scan...</h3>
+            <p id="details">Your scan results will appear here.</p>
+        </div>
+
+        <p class="footer">Cybersecurity • URL Protection</p>
+    </div>
+
+    <script>
+        function checkURL() {
+            let url = document.getElementById("urlInput").value.trim();
+            let result = document.getElementById("result");
+            let details = document.getElementById("details");
+
+            if (url === "") {
+                result.innerText = "Please enter a URL!";
+                details.innerText = "";
+                return;
+            }
+
+            let score = 0;
+            let reasons = [];
+            let lowerURL = url.toLowerCase();
+
+            if (!lowerURL.startsWith("https://")) {
+                score++;
+                reasons.push("Not using HTTPS");
+            }
+
+            if (lowerURL.includes("@")) {
+                score += 2;
+                reasons.push("Contains @ symbol");
+            }
+
+            if (lowerURL.includes("login") ||
+                lowerURL.includes("verify") ||
+                lowerURL.includes("password")) {
+                score++;
+                reasons.push("Contains sensitive keywords");
+            }
+
+            if (lowerURL.includes("-")) {
+                score++;
+                reasons.push("Contains hyphens");
+            }
+
+            if (lowerURL.startsWith("http://")) {
+                score++;
+                reasons.push("Uses insecure HTTP");
+            }
+
+            if (score >= 3) {
+                result.innerText = "HIGH RISK: Suspicious URL!";
+            } else if (score >= 1) {
+                result.innerText = "WARNING: Check this URL!";
+            } else {
+                result.innerText = "LOW RISK: No basic warning signs found.";
+            }
+
+            details.innerText = reasons.length > 0
+                ? reasons.join(", ")
+                : "No suspicious patterns detected.";
+        }
+    </script>
+
+</body>
+</html>
