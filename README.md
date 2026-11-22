@@ -1,5 +1,5 @@
 # cybersecurity-learning-
-Learning cyber security, python and technology
+
 Hi, I'm Harini! 👋
 
 🎓 AI & Data Science Student
